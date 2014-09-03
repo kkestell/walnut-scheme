@@ -1,9 +1,3 @@
-function argsToArray(args) {
-  return Array.prototype.slice.call(args, 0);
-}
-
-
-
 function Interpreter() {
   this.globalEnv = new Env();
   this.globalEnv.addGlobals();
@@ -95,8 +89,7 @@ Interpreter.prototype.parse = function(s) {
 };
 
 Interpreter.prototype.tokenize = function(s) {
-  // Add spaces around parens, split on whitespace, and remove
-  // empty strings.
+  // Add spaces around parens, split on whitespace, and remove empty strings.
   return s
     .replace(/\(/g, " ( ")
     .replace(/\)/g, " ) ")
@@ -145,8 +138,8 @@ Interpreter.prototype.readFrom = function(tokens) {
 Interpreter.prototype.toString = function(x) {
   var str = "";
 
-  // Recursively call `toString' on expressions, wrapping them in
-  // parens, and joining their atoms with a space.
+  // Recursively call `toString' on expressions, wrapping them in parens, and
+  // joining their atoms with a space.
   if(Array.isArray(x)) {
     str += "(";
     str += x
