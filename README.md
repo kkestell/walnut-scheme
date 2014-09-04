@@ -26,96 +26,96 @@ A basic REPL is included in the `repl` directory.
 ### +
 
     (+ 1 2)
-    > 3
+    ===> 3
 
 ### -
 
     (- 1 2)
-    > -1
+    ===> -1
 
 ### *
 
     (/ 10 2)
-    > 5
+    ===> 5
 
 ### =
 
     (= 1 1)
-    > true
+    ===> true
 
 ### !=
 
     (!= 1 2)
-    > true
+    ===> true
 
 ### >
 
     (> 1 0)
-    > true
+    ===> true
 
 ### <
 
     (< 5 10)
-    > true
+    ===> true
 
 ### >=
 
     (>= 1 1)
-    > true
+    ===> true
 
 ### <=
 
     (<= 1 1)
-    > true
+    ===> true
 
 ### cons
 
     (cons 1 2 3)
-    > (1 2 3)
+    ===> (1 2 3)
 
 ### car
 
     (car (cons 1 2 3))
-    > 1
+    ===> 1
 
 ### cdr
 
     (cdr (cons 1 2 3))
-    > (2 3)
+    ===> (2 3)
 
 ### apply
 
     (apply + (cons 1 2 3))
-    > 6
+    ===> 6
 
 ### set!
 
     (set! x 10)
-    > 10
+    ===> 10
 
     x
-    > 10
+    ===> 10
 
 ### define
 
     (define x 10)
-    > 10
+    ===> 10
 
     x
-    > 10
+    ===> 10
 
 ### lambda
 
     (lambda (x y) (+ x y) 1 2)
-    > 3
+    ===> 3
 
     (define double (lambda (x) (* x 2)))
-    > #<closure>
+    ===> #<closure>
 
     (double 10)
-    > 20
+    ===> 20
 
 ### if
 
     (if (> 1 0) 1 2)
-    > 1
+    ===> 1
