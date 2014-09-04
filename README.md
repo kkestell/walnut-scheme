@@ -2,6 +2,21 @@
 
 A small (and incomplete) Scheme interpreter in JavaScript.
 
+    (set! foo 10)
+    ===> 10
+
+    (define bar (lambda (x) (+ x foo)))
+    ===> #<closure>
+
+    (bar 10)
+    ===> 20
+
+    (define sum (lambda (x) (apply + x)))
+    ===> #<closure>
+
+    (sum (cons 1 2 3))
+    ===> 6
+
 ## REPL
 
 A basic REPL is included in the `repl` directory.
