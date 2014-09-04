@@ -4,7 +4,7 @@ A small (and incomplete) Scheme interpreter in JavaScript.
 
 ## REPL
 
-A simple REPL is included in the `repl` directory.
+A basic REPL is included in the `repl` directory.
 
 ## Examples
 
@@ -43,7 +43,7 @@ A simple REPL is included in the `repl` directory.
     (> 1 0)
     > true
 
-### <=
+### >=
 
     (>= 1 1)
     > true

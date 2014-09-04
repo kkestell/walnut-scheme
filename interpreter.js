@@ -54,7 +54,7 @@ Interpreter.prototype.evaluate = function(x, env) {
 
     return env[name];
   } else if(x[0] === "set!") {
-    x.shift(); // Pop "set!"
+    x.shift(); // Pop set!
 
     if(x.length !== 2) {
       throw "incorrect number of arguments to `set!' (" + x.length + " for 2)";
