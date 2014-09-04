@@ -1,64 +1,52 @@
-// == Util ====================================================================
-
-function argsToArray(args) {
-  return Array.prototype.slice.call(args, 0);
-}
-
 // == Op ======================================================================
 
 var op = {
-  add: function(x) {
-    x = argsToArray(arguments);
+  add: function() {
+    x = Array.prototype.slice.call(arguments);
     return x.reduce(function(a, b) { return a + b; });
   },
 
-  sub: function(x) {
-    x = argsToArray(arguments);
+  sub: function() {
+    x = Array.prototype.slice.call(arguments);
     return x.reduce(function(a, b) { return a - b; });
   },
 
-  mul: function(x) {
-    x = argsToArray(arguments);
+  mul: function() {
+    x = Array.prototype.slice.call(arguments);
     return x.reduce(function(a, b) { return a * b; });
   },
 
-  div: function(x) {
-    x = argsToArray(arguments);
+  div: function() {
+    x = Array.prototype.slice.call(arguments);
     return x.reduce(function(a, b) { return a / b; });
   },
 
-  eq: function(x) {
-    x = argsToArray(arguments);
-    return x[0] === x[1];
+  eq: function(a, b) {
+    return a === b;
   },
 
-  ne: function(x) {
-    x = argsToArray(arguments);
-    return x[0] !== x[1];
+  ne: function(a, b) {
+    return a !== b;
   },
 
-  gt: function(x) {
-    x = argsToArray(arguments);
-    return x[0] > x[1];
+  gt: function(a, b) {
+    return a > b;
   },
 
-  lt: function(x) {
-    x = argsToArray(arguments);
-    return x[0] < x[1];
+  lt: function(a, b) {
+    return a < b;
   },
 
-  ge: function(x) {
-    x = argsToArray(arguments);
-    return x[0] >= x[1];
+  ge: function(a, b) {
+    return a >= b;
   },
 
-  le: function(x) {
-    x = argsToArray(arguments);
-    return x[0] <= x[1];
+  le: function(a, b) {
+    return a <= b;
   },
 
   cons: function() {
-    return argsToArray(arguments);
+    return Array.prototype.slice.call(arguments);
   },
 
   car: function(x) {
@@ -69,8 +57,8 @@ var op = {
     return x.slice(1);
   },
 
-  apply: function(x) {
-    x = argsToArray(arguments);
+  apply: function() {
+    x = Array.prototype.slice.call(arguments);
 
     if(x.length !== 2) {
       throw "incorrect number of arguments to `apply' (" + x.length + " for 2)";
@@ -275,7 +263,8 @@ Interpreter.prototype.readFrom = function(tokens) {
 };
 
 Interpreter.prototype.toString = function(x) {
-  var str = "";
+  var self = this,
+      str = "";
 
   // Recursively call `toString' on expressions, wrapping them in parens, and
   // joining their atoms with a space.
@@ -283,7 +272,7 @@ Interpreter.prototype.toString = function(x) {
     str += "(";
     str += x
       .map(function(x) {
-        return toString(x);
+        return self.toString(x);
       })
       .join(" ");
     str += ")";
