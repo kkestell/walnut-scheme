@@ -1,3 +1,142 @@
+// == Util ====================================================================
+
+function argsToArray(args) {
+  return Array.prototype.slice.call(args, 0);
+}
+
+// == Op ======================================================================
+
+var op = {
+  add: function(x) {
+    x = argsToArray(arguments);
+    return x.reduce(function(a, b) { return a + b; });
+  },
+
+  sub: function(x) {
+    x = argsToArray(arguments);
+    return x.reduce(function(a, b) { return a - b; });
+  },
+
+  mul: function(x) {
+    x = argsToArray(arguments);
+    return x.reduce(function(a, b) { return a * b; });
+  },
+
+  div: function(x) {
+    x = argsToArray(arguments);
+    return x.reduce(function(a, b) { return a / b; });
+  },
+
+  eq: function(x) {
+    x = argsToArray(arguments);
+    return x[0] === x[1];
+  },
+
+  ne: function(x) {
+    x = argsToArray(arguments);
+    return x[0] !== x[1];
+  },
+
+  gt: function(x) {
+    x = argsToArray(arguments);
+    return x[0] > x[1];
+  },
+
+  lt: function(x) {
+    x = argsToArray(arguments);
+    return x[0] < x[1];
+  },
+
+  ge: function(x) {
+    x = argsToArray(arguments);
+    return x[0] >= x[1];
+  },
+
+  le: function(x) {
+    x = argsToArray(arguments);
+    return x[0] <= x[1];
+  },
+
+  cons: function() {
+    return argsToArray(arguments);
+  },
+
+  car: function(x) {
+    return x[0];
+  },
+
+  cdr: function(x) {
+    return x.slice(1);
+  },
+
+  apply: function(x) {
+    x = argsToArray(arguments);
+
+    if(x.length !== 2) {
+      throw "incorrect number of arguments to `apply' (" + x.length + " for 2)";
+    }
+
+    var proc = x.shift();
+
+    return proc.apply(null, x[0]);
+  }
+};
+
+// == Env =====================================================================
+
+function Env(params, args, outer) {
+  this.outer = outer;
+
+  if(typeof params !== "undefined" && typeof args !== "undefined") {
+    for(var i = 0; i < params.length; i++) {
+      this[params[i]] = args[i];
+    }
+  }
+}
+
+Env.prototype.find = function(name) {
+  if(name in this) {
+    return this;
+  } else {
+    if(typeof this.outer === "undefined") {
+      throw "undefined reference to `" + name + "'";
+    } else {
+      return this.outer.find(name);
+    }
+  }
+};
+
+Env.prototype.set = function(name, exp) {
+  this[name] = exp;
+};
+
+Env.prototype.addGlobals = function() {
+  var self = this;
+
+  var globals = {
+    "+": op.add,
+    "-": op.sub,
+    "*": op.mul,
+    "/": op.div,
+    "=": op.eq,
+    "!=": op.ne,
+    ">": op.gt,
+    "<": op.lt,
+    ">=": op.ge,
+    "<=": op.le,
+    "cons": op.cons,
+    "car": op.car,
+    "cdr": op.cdr,
+    "apply": op.apply
+  };
+
+  for(var attrname in globals) {
+    this[attrname] = globals[attrname];
+  }
+};
+
+// == Interpreter =============================================================
+
 function Interpreter() {
   this.globalEnv = new Env();
   this.globalEnv.addGlobals();

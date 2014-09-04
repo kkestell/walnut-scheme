@@ -33,14 +33,14 @@ A basic REPL is included in the `repl` directory.
     (!= 1 2)
     > true
 
-### <
-
-    (< 5 10)
-    > true
-
 ### >
 
     (> 1 0)
+    > true
+
+### <
+
+    (< 5 10)
     > true
 
 ### >=
