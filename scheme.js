@@ -68,8 +68,7 @@ function Env(params, args, outer) {
       var x = Array.prototype.slice.call(arguments);
 
       if (x.length !== 2) {
-        throw 'incorrect number of arguments to `apply\' (' + x.length +
-          ' for 2)';
+        throw this._argCountError('apply', x.length, 2);
       }
 
       var proc = x.shift();
@@ -152,7 +151,7 @@ Interpreter.prototype.evaluate = function(x, env) {
     x.shift();
 
     if (x.length !== 3) {
-      throw 'incorrect number of arguments to `if\' (' + x.length + ' for 3)';
+      throw this._argCountError('if', x.length, 3);
     }
 
     var test = x[0];
@@ -169,8 +168,7 @@ Interpreter.prototype.evaluate = function(x, env) {
     x.shift();
 
     if (x.length !== 2) {
-      throw 'incorrect number of arguments to `define\' (' + x.length +
-        ' for 2)';
+      throw this._argCountError('define', x.length, 2);
     }
 
     var name = x[0];
@@ -184,7 +182,7 @@ Interpreter.prototype.evaluate = function(x, env) {
     x.shift();
 
     if (x.length !== 2) {
-      throw 'incorrect number of arguments to `set!\' (' + x.length + ' for 2)';
+      throw this._argCountError('set!', x.length, 2);
     }
 
     var name = x[0];
@@ -286,4 +284,9 @@ Interpreter.prototype.toString = function(x) {
   }
 
   return str;
+};
+
+Interpreter.prototype._argCountError = function(name, passed, required) {
+  return 'wrong number of arguments to `' + name + '\' (' + passed +
+         ' for ' + required + ')';
 };
