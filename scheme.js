@@ -6,6 +6,77 @@ function Env(params, args, outer) {
       this[params[i]] = args[i];
     }
   }
+
+  this.op = {
+    add: function() {
+      var x = Array.prototype.slice.call(arguments);
+      return x.reduce(function(a, b) { return a + b; });
+    },
+
+    sub: function() {
+      var x = Array.prototype.slice.call(arguments);
+      return x.reduce(function(a, b) { return a - b; });
+    },
+
+    mul: function() {
+      var x = Array.prototype.slice.call(arguments);
+      return x.reduce(function(a, b) { return a * b; });
+    },
+
+    div: function() {
+      var x = Array.prototype.slice.call(arguments);
+      return x.reduce(function(a, b) { return a / b; });
+    },
+
+    eq: function(a, b) {
+      return a === b;
+    },
+
+    ne: function(a, b) {
+      return a !== b;
+    },
+
+    gt: function(a, b) {
+      return a > b;
+    },
+
+    lt: function(a, b) {
+      return a < b;
+    },
+
+    ge: function(a, b) {
+      return a >= b;
+    },
+
+    le: function(a, b) {
+      return a <= b;
+    },
+
+    cons: function() {
+      return Array.prototype.slice.call(arguments);
+    },
+
+    car: function(x) {
+      return x[0];
+    },
+
+    cdr: function(x) {
+      return x.slice(1);
+    },
+
+    apply: function() {
+      var x = Array.prototype.slice.call(arguments);
+
+      if (x.length !== 2) {
+        throw 'incorrect number of arguments to `apply\' (' + x.length +
+          ' for 2)';
+      }
+
+      var proc = x.shift();
+
+      return proc.apply(null, x[0]);
+    }
+  };
 }
 
 Env.prototype.find = function(name) {
@@ -25,6 +96,8 @@ Env.prototype.set = function(name, exp) {
 };
 
 Env.prototype.addGlobals = function() {
+  var op = this.op;
+
   var globals = {
     '+': op.add,
     '-': op.sub,
@@ -75,7 +148,8 @@ Interpreter.prototype.evaluate = function(x, env) {
       return _this.evaluate(exp, new Env(params, args, env));
     };
   } else if (x[0] === 'if') {
-    x.shift(); // pop if
+    // pop if
+    x.shift();
 
     if (x.length !== 3) {
       throw 'incorrect number of arguments to `if\' (' + x.length + ' for 3)';
@@ -178,6 +252,7 @@ Interpreter.prototype.readFrom = function(tokens) {
       l.push(_this.readFrom(tokens));
     }
 
+    // pop )
     tokens.shift();
 
     return l;
@@ -211,75 +286,4 @@ Interpreter.prototype.toString = function(x) {
   }
 
   return str;
-};
-
-var op = {
-  add: function() {
-    var x = Array.prototype.slice.call(arguments);
-    return x.reduce(function(a, b) { return a + b; });
-  },
-
-  sub: function() {
-    var x = Array.prototype.slice.call(arguments);
-    return x.reduce(function(a, b) { return a - b; });
-  },
-
-  mul: function() {
-    var x = Array.prototype.slice.call(arguments);
-    return x.reduce(function(a, b) { return a * b; });
-  },
-
-  div: function() {
-    var x = Array.prototype.slice.call(arguments);
-    return x.reduce(function(a, b) { return a / b; });
-  },
-
-  eq: function(a, b) {
-    return a === b;
-  },
-
-  ne: function(a, b) {
-    return a !== b;
-  },
-
-  gt: function(a, b) {
-    return a > b;
-  },
-
-  lt: function(a, b) {
-    return a < b;
-  },
-
-  ge: function(a, b) {
-    return a >= b;
-  },
-
-  le: function(a, b) {
-    return a <= b;
-  },
-
-  cons: function() {
-    return Array.prototype.slice.call(arguments);
-  },
-
-  car: function(x) {
-    return x[0];
-  },
-
-  cdr: function(x) {
-    return x.slice(1);
-  },
-
-  apply: function() {
-    var x = Array.prototype.slice.call(arguments);
-
-    if (x.length !== 2) {
-      throw 'incorrect number of arguments to `apply\' (' + x.length +
-        ' for 2)';
-    }
-
-    var proc = x.shift();
-
-    return proc.apply(null, x[0]);
-  }
 };

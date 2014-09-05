@@ -1,4 +1,4 @@
-# scheme.js
+# Walnut Scheme
 
 A small (and incomplete) Scheme interpreter in JavaScript.
 
