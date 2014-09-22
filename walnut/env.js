@@ -121,4 +121,6 @@ Env.prototype.addGlobals = function() {
   }
 };
 
-module.exports = Env;
+if(typeof module !== 'undefined') {
+  module.exports = Env;
+}

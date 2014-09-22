@@ -1,3 +1,5 @@
+'use strict';
+
 var readline = require('readline');
 var Interpreter = require('./walnut');
 

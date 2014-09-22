@@ -1,6 +1,8 @@
 'use strict';
 
-var Env = require('./env.js');
+if(typeof require !== 'undefined') {
+  var Env = require('./env.js');
+}
 
 function Interpreter() {
   this.globalEnv = new Env();
@@ -174,4 +176,6 @@ Interpreter.prototype._argCountError = function(name, passed, required) {
          ' for ' + required + ')';
 };
 
-module.exports = Interpreter;
+if(typeof module !== 'undefined') {
+  module.exports = Interpreter;
+}
